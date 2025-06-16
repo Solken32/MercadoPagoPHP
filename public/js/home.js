@@ -92,51 +92,90 @@ document.addEventListener("DOMContentLoaded", () => { // DOMContentLoaded: Ejecu
 // PRODUCTOS
 // -----------
 const products = [
-    { name: "Sacha", price: "0.20", image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
-    { name: "Ara Ara", price: "0.20", image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
-    { name: "Potomachi", price: "0.20", image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
-    { name: "Sport Jainer", price: "0.20", image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" }
+    { name: "Sacha", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Ara Ara", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Potomachi", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Sport Jainer", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" }
 ]
 
 const container = document.getElementById("product-list");
 
-products.forEach(product => {
-    const card = `<div class="max-w-sm mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-        <img class="w-full h-48 object-cover" src="${product.image}" alt="${product.name}">
-        <div class="p-4">
-            <h2 class="text-xl font-bold text-gray-800">${product.name}</h2>
-            <p class="text-lg text-blue-600 font-semibold mt-2">S/ ${product.price}</p>
-            <button onclick='addToCart(${JSON.stringify(product)})' class="mt-3 px-4 py-2 bg-blue-600 text-white rounded cursor-pointer">Agregar al carrito</button>
-        </div>
-    </div>`
-    container.innerHTML += card;
-})
+function showProducts() {
+    products.forEach(product => {
+        const card = `<div class="max-w-sm mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+            <img class="w-full h-48 object-cover" src="${product.image}" alt="${product.name}">
+            <div class="p-4">
+                <h2 class="text-xl font-bold text-gray-800">${product.name}</h2>
+                <p class="text-lg text-blue-600 font-semibold mt-2">S/ ${product.price}</p>
+                <button onclick='addToCart(${JSON.stringify(product)})' class="mt-3 px-4 py-2 bg-blue-600 text-white rounded cursor-pointer">Agregar al carrito</button>
+            </div>
+        </div>`
+        container.innerHTML += card;
+    })
+}
 
 function addToCart(product) {
     let cart = JSON.parse(localStorage.getItem("cart")) || []
-    cart.push(product)
+    const index = cart.findIndex(p => p.name === product.name);
+    if (index !== -1) {
+        cart[index].quantity += 1;
+        cart[index].subtotal = cart[index].quantity * cart[index].price;
+    } else {
+        product.quantity = 1;
+        product.subtotal = product.price;
+        cart.push(product);
+    }
     localStorage.setItem("cart", JSON.stringify(cart))
     alert(`${product.name} agregado al carrito!`)
+    productListCard();
+    countProduct();
 }
 
 function showCart() {
-  const aside = document.getElementById("cart-aside")
-  const cartItems = document.getElementById("cart-items")
-  cartItems.innerHTML = ""
-
-  const cart = JSON.parse(localStorage.getItem("cart")) || []
-
-  cart.forEach((item, index) => {
-    cartItems.innerHTML += `
-      <div class="border-b pb-2">
-        <h3 class="font-semibold">${item.name}</h3>
-        <p class="text-sm text-gray-600">$${item.price}</p>
-      </div>
-    `
-  })
-
-  aside.classList.remove("hidden")
+    const aside = document.getElementById("cart-aside")
+    productListCard();
+    aside.classList.remove("hidden")
 }
 
-const cart = JSON.parse(localStorage.getItem("cart")) || []
-document.getElementById("cart-count").textContent = cart.length
+function productListCard() {
+    const cartItems = document.getElementById("cart-items")
+    cartItems.innerHTML = ""
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || []
+
+    cart.forEach((item, index) => {
+        cartItems.innerHTML += `
+      <div class="border-b pb-2">
+        <h3 class="font-semibold">${index + 1}. ${item.name}</h3>
+        <div class="flex justify-between items-center">
+            <p class="text-sm text-gray-600">S/${item.subtotal.toFixed(2)}</p>
+            <button class="text-sm text-gray-600 cursor-pointer" onclick="removeItemCart(${index})">X</button>
+        </div>
+      </div>
+    `
+    })
+
+}
+
+function removeItemCart(i) {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.splice(i, 1); // elimina por índice
+    localStorage.setItem("cart", JSON.stringify(cart)); // actualiza
+    productListCard(); // recarga para mostrar cambio
+    countProduct();
+}
+
+
+function closeCart() {
+    const aside = document.getElementById("cart-aside")
+    aside.classList.add("hidden")
+}
+
+
+function countProduct() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || []
+    document.getElementById("cart-count").textContent = cart.length
+}
+
+showProducts();
+countProduct();

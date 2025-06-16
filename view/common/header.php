@@ -82,13 +82,13 @@
                         <i class="fas fa-user text-lg"></i>
                     </a>
 
-                    <!-- Wishlist -->
+                    <!-- Wishlist 
                     <a href="#" class="p-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors relative">
                         <i class="fas fa-heart text-lg"></i>
                         <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
                             3
                         </span>
-                    </a>
+                    </a> -->
 
                     <!-- Shopping cart -->
                     <button onclick="showCart()" class="p-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors relative">
@@ -112,10 +112,14 @@
             </div>
         </div>
 
-        <!-- MAside Carrito -->
+        <!-- Aside Carrito -->
         <aside id="cart-aside" class="fixed right-0 top-0 w-80 h-full bg-white shadow-lg p-4 overflow-y-auto z-50 hidden">
-            <h2 class="text-xl font-bold mb-4">🛒 Carrito</h2>
+            <div class="flex justify-between w-full cursor-pointer">
+                <h2 class="text-xl font-bold mb-4">🛒 Carrito</h2>
+                <button onclick="closeCart()">x</button>
+            </div>    
             <div id="cart-items" class="space-y-4"></div>
+            
         </aside>
 
         <!-- Mobile menu -->
