@@ -26,9 +26,9 @@ try {
             "installments" => 1  // Solo permitir una cuota
         ],
         "back_urls" => [ // Definimos pahts
-            "success" => "https://hd0bbg0n-8000.use.devtunnels.ms/payNotification/pago-exitoso.php",
-            "failure" => "https://hd0bbg0n-8000.use.devtunnels.ms/payNotification/pago-fallido.php",
-            "pending" => "https://hd0bbg0n-8000.use.devtunnels.ms/payNotification/pago-pendiente.php"
+            "success" => "https://hd0bbg0n-8000.use.devtunnels.ms/view/payNotification/pago-exitoso.php",
+            "failure" => "https://hd0bbg0n-8000.use.devtunnels.ms/view/payNotification/pago-fallido.php",
+            "pending" => "https://hd0bbg0n-8000.use.devtunnels.ms/view/payNotification/pago-pendiente.php"
         ],
         "auto_return" => "approved", // Redirige automaticamente si el pago es exitoso
     ];
@@ -37,7 +37,7 @@ try {
     $request["items"][] = [
         "title" => $p["name"],
         "unit_price" => floatval($p["price"]),
-        "quantity" => 1
+        "quantity" => intval($p["quantity"])
     ];
 }
 

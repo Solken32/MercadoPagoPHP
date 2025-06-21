@@ -240,4 +240,4 @@
     </div>
 </footer>
 
-<script src="../../public/js/home.js"></script>
+<script src="<?= $BASE_URL?>public/js/home.js"></script>

@@ -1,3 +1,5 @@
+<?php require_once __DIR__."/../../config/constant.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +13,9 @@
     <script src="https://kit.fontawesome.com/2e25975fef.js" crossorigin="anonymous"></script>
     <!--  MERCAQDO PAGO SDK    -->
     <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <!--  SWEET ALERT   -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
@@ -29,7 +34,6 @@
                 <div class="flex-shrink-0">
                     <a href="/" class="flex items-center">
                         <h1 class="text-2xl lg:text-3xl font-bold text-gray-900">
-                            <i class="fas fa-tshirt mr-2 text-blue-600"></i>
                             Wakamy<span class="text-blue-600">Events</span>
                         </h1>
                     </a>
@@ -65,6 +69,7 @@
                         <input
                             type="text"
                             placeholder="Buscar productos..."
+                            id="search"
                             class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     </div>
@@ -112,16 +117,6 @@
             </div>
         </div>
 
-        <!-- Aside Carrito -->
-        <aside id="cart-aside" class="fixed right-0 top-0 w-80 h-full bg-white shadow-lg p-4 overflow-y-auto z-50 hidden">
-            <div class="flex justify-between w-full cursor-pointer">
-                <h2 class="text-xl font-bold mb-4">🛒 Carrito</h2>
-                <button onclick="closeCart()">x</button>
-            </div>    
-            <div id="cart-items" class="space-y-4"></div>
-            
-        </aside>
-
         <!-- Mobile menu -->
         <div id="mobile-menu" class="md:hidden border-t border-gray-200 bg-white hidden">
             <div class="px-4 py-6 space-y-4">
@@ -154,5 +149,8 @@
             </div>
         </div>
 
+        <?php require (__DIR__."/asideCart.php") ?>
+
     </header>
-    <main class="min-h-screen flex items-center justify-center">
+
+    <main class="min-h-screen flex items-center justify-center p-5  flex-col">

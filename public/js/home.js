@@ -17,7 +17,6 @@ mobileMenuBton.addEventListener("click", () => {
         mobileMenu.classList.add("hidden");
         menuIcon.classList.remove("fa-times");
         menuIcon.classList.add("fa-bars");
-
     }
 })
 
@@ -29,7 +28,6 @@ const mobileSearch = document.getElementById("mobile-search");
 mobileSearchBtn.addEventListener("click", () => {
     const isHidden = mobileSearch.classList.contains("hidden");
     console.log(isHidden);
-
     if (isHidden) {
         mobileSearch.classList.remove("hidden");
     } else {
@@ -88,20 +86,57 @@ document.addEventListener("DOMContentLoaded", () => { // DOMContentLoaded: Ejecu
     }
 })
 
-// -----------
-// PRODUCTOS
-// -----------
+// --------------------
+// FUNCTION BUSCAR
+// --------------------
+
+
+// --------------------
+// PRODUCTOS Y CARRITO
+// --------------------
 const products = [
     { name: "Sacha", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
     { name: "Ara Ara", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
     { name: "Potomachi", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
-    { name: "Sport Jainer", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" }
+    { name: "Eco Pack", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Wakami Light", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Chaski Pack", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Andes Kit", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Amazonía Set", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Sol & Luna", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Brisa Eco", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Inka Roots", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Pachamama Line", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Wasi Natural", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Kintu Colors", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Eco Wayuu", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Llama Style", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Inti Raymi", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Qori Gold", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" }
 ]
+
+function search() {
+    const searchInput = document.getElementById("search");
+    searchInput.addEventListener("input", (e) => {
+        const texto = e.target.value.toLowerCase();
+        const resultados = products.filter(p =>
+            p.name.toLowerCase().includes(texto)
+        );
+        console.log(resultados); // Muestra coincidencias
+        showProducts(resultados);
+    });
+}
+search();
 
 const container = document.getElementById("product-list");
 
-function showProducts() {
-    products.forEach(product => {
+function showProducts(data) {
+    container.innerHTML = '';
+    if (data.length === 0) {
+        container.innerHTML = `<p class="text-center text-gray-500 text-lg mt-6">No se encontró el producto XD</p>`;
+        return;
+    }
+    data.forEach(product => {
         const card = `<div class="max-w-sm mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
             <img class="w-full h-48 object-cover" src="${product.image}" alt="${product.name}">
             <div class="p-4">
@@ -115,7 +150,7 @@ function showProducts() {
 }
 
 function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || []
+    let cart = getCart();
     const index = cart.findIndex(p => p.name === product.name);
     if (index !== -1) {
         cart[index].quantity += 1;
@@ -125,57 +160,147 @@ function addToCart(product) {
         product.subtotal = product.price;
         cart.push(product);
     }
-    localStorage.setItem("cart", JSON.stringify(cart))
-    alert(`${product.name} agregado al carrito!`)
+    saveCart(cart);
     productListCard();
     countProduct();
+    cartSumary();
+    toastAlert("success", "Producto agregado al carrito");
+}
+
+function toastAlert(icon, title) {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: icon,
+        title: title,
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true
+    });
 }
 
 function showCart() {
     const aside = document.getElementById("cart-aside")
     productListCard();
-    aside.classList.remove("hidden")
+    aside.classList.remove("translate-x-full");
+    cartSumary();
 }
 
 function productListCard() {
-    const cartItems = document.getElementById("cart-items")
-    cartItems.innerHTML = ""
+    const cartItems = document.querySelectorAll(".cart-items")
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || []
+    const cart = getCart();
 
+    if (cart.length === 0) {
+        return cartItems.innerHTML = `
+        <div  class="text-center py-12 text-xs">
+            <i class="fas fa-shopping-bag text-3xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">Tu carrito está vacío</h3>
+                <p class="text-gray-500 mb-6">¡Agrega algunos productos increíbles!</p>
+        </div>`
+    }
+    cartItems.innerHTML = "";
     cart.forEach((item, index) => {
         cartItems.innerHTML += `
-      <div class="border-b pb-2">
-        <h3 class="font-semibold">${index + 1}. ${item.name}</h3>
-        <div class="flex justify-between items-center">
-            <p class="text-sm text-gray-600">S/${item.subtotal.toFixed(2)}</p>
-            <button class="text-sm text-gray-600 cursor-pointer" onclick="removeItemCart(${index})">X</button>
+        <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg">
+            <div class="flex-1">
+                <h3 class="font-semibold text-gray-800">${item.name}</h3>
+                <p class="text-blue-600 font-bold">S/${item.subtotal.toFixed(2)}</p>
+            </div>
+
+            <div class="flex flex-col items-end space-y-2">
+                <button onclick="removeItemCart(${index})" class="cursor-pointer remove-item text-red-500 hover:text-red-700 transition-colors">
+                    <i class="fas fa-trash text-sm"></i>
+                </button>
+
+                <div class="flex items-center space-x-2">
+                    <button onclick="decreaseQuantity(${index})" class="cursor-pointer bg-gray-200 hover:bg-gray-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fas fa-minus text-xs"></i>
+                    </button>
+                    <span class="w-8 text-center font-semibold">${item.quantity}</span>
+                    <button onclick="increaseQuantity(${index})" class="cursor-pointer bg-gray-200 hover:bg-gray-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fas fa-plus text-xs"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
+
     `
+
     })
 
 }
 
+function increaseQuantity(index) {
+    let cart = getCart();
+    cart[index].quantity += 1;
+    cart[index].subtotal = cart[index].quantity * cart[index].price;
+    saveCart(cart);
+    productListCard();
+    cartSumary();
+}
+
+function decreaseQuantity(index) {
+    let cart = getCart();
+    cart[index].quantity -= 1;
+
+    if (cart[index].quantity <= 0) {
+        return removeItemCart(index);
+
+    }
+
+    cart[index].subtotal = cart[index].quantity * cart[index].price;
+    saveCart(cart);
+    productListCard();
+    cartSumary();
+}
+
 function removeItemCart(i) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cart = getCart();
     cart.splice(i, 1); // elimina por índice
-    localStorage.setItem("cart", JSON.stringify(cart)); // actualiza
+    saveCart(cart);
     productListCard(); // recarga para mostrar cambio
     countProduct();
+    cartSumary();
+    toastAlert("error", "Producto eliminado del carrito");
 }
 
 
 function closeCart() {
     const aside = document.getElementById("cart-aside")
-    aside.classList.add("hidden")
+    aside.classList.add("translate-x-full")
 }
 
 
 function countProduct() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || []
+    const cart = getCart();
     document.getElementById("cart-count").textContent = cart.length
 }
 
-showProducts();
+function cartSumary() {
+    const inputSubtotal = document.getElementById("subtotal");
+    const inputTotal = document.getElementById("total");
+
+    const cart = getCart();
+    const subtotal = cart.reduce((sum, item) => sum + item.subtotal, 0);
+    inputSubtotal.textContent = "S/ " + subtotal.toFixed(2);
+    inputTotal.textContent = "S/ " + subtotal.toFixed(2);
+
+}
+
+function getCart() {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart))
+}
+
+// esperar a que cargue todo el DOM y mostrar contador
+//document.addEventListener("DOMContentLoaded", showProducts);
+showProducts(products);
 countProduct();
+
+
+
