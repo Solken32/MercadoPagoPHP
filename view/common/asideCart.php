@@ -33,7 +33,7 @@
             <div class="space-y-2 mb-4">
                 <div class="flex justify-between text-gray-600">
                     <span>Subtotal:</span>
-                    <span id="subtotal">S/ 00.00</span>
+                    <span id="subtotal" class="subtotal">S/ 00.00</span>
                 </div>
                 <div class="flex justify-between text-gray-600">
                     <span>Impuestos:</span>
@@ -42,7 +42,7 @@
                 <hr class="my-2">
                 <div class="flex justify-between text-lg font-bold text-gray-800">
                     <span>Total:</span>
-                    <span id="total">S/0.00</span>
+                    <span id="total" class="total" >S/0.00</span>
                 </div>
             </div>
 
