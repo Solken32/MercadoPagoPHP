@@ -36,11 +36,7 @@ mobileSearchBtn.addEventListener("click", () => {
 })
 
 
-
-// ----------------
-// FOOTER 
-// ----------------
-// Newsletter subscription functionality
+// suscripcion funcionality
 document.addEventListener("DOMContentLoaded", () => { // DOMContentLoaded: Ejecuta el código cuando el HTML ya está cargado completamente
     const newsletterForm = document.querySelector(".bg-blue-600 .flex")
     const emailInput = newsletterForm.querySelector('input[type="email"]')
@@ -61,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => { // DOMContentLoaded: Ejecu
             return
         }
 
-        // Simulate newsletter subscription
+        // Simulacion subscriptor
         submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'
         submitButton.disabled = true
 
@@ -73,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => { // DOMContentLoaded: Ejecu
         }, 1500)
     })
 
-    // Allow form submission with Enter key
+    // enviar form con "enter"
     emailInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
             submitButton.click()
@@ -96,8 +92,8 @@ document.addEventListener("DOMContentLoaded", () => { // DOMContentLoaded: Ejecu
 // --------------------
 const products = [
     { name: "Sacha", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
-    { name: "Ara Ara", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
-    { name: "Potomachi", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Polo", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
+    { name: "Carro", price: 0.2, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
     { name: "Eco Pack", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
     { name: "Wakami Light", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
     { name: "Chaski Pack", price: 0.20, image: "https://mercury.vtexassets.com/arquivos/ids/19287859-800-800?v=638664995756700000&width=800&height=800&aspect=true" },
